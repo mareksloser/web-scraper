@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  php:
+    build:
+      context: ../
+      dockerfile: ./.docker/php/Dockerfile_php
+    ports:
+      - "80:80"
+      - "433:433"
+    env_file:
+      - .env
+
+  database:
+    image: mysql
+    command: --transaction-isolation=READ-COMMITTED
+    env_file:
+      - .env
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  python:
+    build:
+      context: ../
+      dockerfile: ./.docker/python/Dockerfile_python
